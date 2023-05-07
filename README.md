@@ -15,20 +15,20 @@ Create virtualenv and install all requirements and run command:
 
 ### Overview
 
-* Topic
+### * Topic
 
-2D shooting Game with unittesting
+    2D shooting Game with unittesting
 
-* Target
+### * Target
 
 - Our target is to write a unittesting framework for a 2D shooting game
 - The game will have players, attackers and multiple game scenes(front-end)
 - With our testing code, we hope each functions could run smoothly without any error
 - error examples: player’s life bar doesn’t reduce when being attacked, bullet isn’t triggered…
 
-================================
+========
 
-* Approaches
+### * Approaches
 
 1. Spy
     - spy on objects
@@ -41,15 +41,17 @@ Create virtualenv and install all requirements and run command:
 
 
 
+
 [![2023-05-07-10-34-06.png](https://i.postimg.cc/G2TTqKx0/2023-05-07-10-34-06.png)](https://postimg.cc/xJYddKZg)
 
 
 
-================================
+
+========
 
 * Contributors
 
-311551143 謝秉錦
-311554058 陳昱宏
-310706043 肇綺筠
+    311551143 謝秉錦
+    311554058 陳昱宏
+    310706043 肇綺筠
 

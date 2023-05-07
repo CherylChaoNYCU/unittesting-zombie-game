@@ -6,9 +6,12 @@ Simple game created in pygame lib shows zombie attack on one of corporation floo
 
 
 ### How to run
+
 Create virtualenv and install all requirements and run command:
 `python3 main.py`
 
+
+========
 
 ## 2. Unittesting 
 
@@ -17,7 +20,8 @@ Create virtualenv and install all requirements and run command:
 
 ### * Topic
 
-    2D shooting Game with unittesting
+2D shooting Game with unittesting
+
 
 ### * Target
 
@@ -26,7 +30,7 @@ Create virtualenv and install all requirements and run command:
 - With our testing code, we hope each functions could run smoothly without any error
 - error examples: player’s life bar doesn’t reduce when being attacked, bullet isn’t triggered…
 
-========
+
 
 ### * Approaches
 
@@ -47,9 +51,7 @@ Create virtualenv and install all requirements and run command:
 
 
 
-========
-
-* Contributors
+### * Contributors
 
     311551143 謝秉錦
     311554058 陳昱宏

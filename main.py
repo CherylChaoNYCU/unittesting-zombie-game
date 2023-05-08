@@ -165,7 +165,7 @@ class Game:
             self.dt = self.fps_clock.tick(FPS) / 1000
             self.handle_events()
             if not self.game_paused:
-                self.update()
+                self.update() #calling update
             self.draw()
             pg.display.flip()
 

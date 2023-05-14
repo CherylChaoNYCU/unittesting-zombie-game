@@ -5,6 +5,8 @@ from main import Game
 import pygame as pg
 from zombie_game.bullet import Bullet
 from zombie_game.settings import *
+from os import path
+import os
 
 
 class TestGame(unittest.TestCase):
@@ -12,21 +14,50 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         pg.init()
         self.game = Game()
+        self.game_menu = self.game.menu.game_intro()
+    
+    def test_load_scoreboard(self):
+                # Create a temporary file to use for testing
+        temp_file = 'temp_scoreboard.txt'
+        tmp_score_list = []
+        init = self.game.score_list
+        self.game.score_list = tmp_score_list #stub with empty list
+
+        with open(temp_file, 'w') as f:
+            f.write('John 10\n')
+            f.write('Jane 15\n')
+            f.write('Bob 5\n')
+
+        # Test loading scoreboard
+        self.game.load_scoreboard(temp_file)
+
+        # Assert that score_list was loaded correctly
+        expected_scores = [('John', '10'), ('Jane', '15'), ('Bob', '5')]
+        self.assertEqual(self.game.score_list, expected_scores)
+        
+        self.game.score_list = init
+   
+
+ 
+        os.remove(temp_file)
+
+
 
     def test_load_flash_smoke(self):
-        self.game.load_flash_smoke()
+        #self.game.load_flash_smoke()
         self.assertNotEqual(len(self.game.gun_smoke), 0) #make sure that successfully load some smoke image
     
     def test_load_green_smoke(self):
-        self.game.load_green_smoke()
+        #self.game.load_green_smoke()
         self.assertNotEqual(len(self.game.zombie_death_smoke), 0)
     
+    
     def test_load_light_mask(self):
-        self.game.load_light_mask()
+        #self.game.load_light_mask()
         self.assertIsNotNone(self.game.light_mask)
     
     def test_load_sounds(self):
-        self.game.load_sounds()
+        #self.game.load_sounds()
         self.assertNotEqual(len(self.game.sound_effects),0)
         self.assertNotEqual(len(self.game.weapon_sounds),0)
         self.assertNotEqual(len(self.game.zombie_moan_sounds),0)
@@ -61,6 +92,45 @@ class TestGame(unittest.TestCase):
         self.assertEqual(len(sounds),len(sound_list))
         for s in sound_list: #make sure all volumn is set correctly
             self.assertEqual(s.get_volume(),vol)
+    
+    
+    def test_load_items(self):
+        
+        #self.game.load_items()
+        #print(self.game.items_images)
+
+        for item in ITEM_IMAGES:
+            self.assertIn(item, self.game.items_images)
+            self.assertIsInstance(self.game.items_images[item], pg.Surface)
+            if item == 'shotgun' or item == 'rifle':
+                self.assertEqual(self.game.items_images[item].get_size(), (2 * ITEM_SIZE, ITEM_SIZE))
+                #self.assertEqual(self.game.items_images['rifle'].get_size(), (2 * ITEM_SIZE, ITEM_SIZE))
+            else:
+                 self.assertEqual(self.game.items_images[item].get_size(), (ITEM_SIZE, ITEM_SIZE))
+    
+    def test_load_splats(self):
+        #self.game.load_splats() as the load splats is called while the game is initialized, so be careful not to call again
+        #print(self.game.splats)
+        self.assertEqual(len(self.game.splats),4) #check at the end...
+        for splat in self.game.splats:
+            self.assertEqual(splat.get_width(),64)
+            self.assertEqual(splat.get_height(),64)
+                
+
+    def test_bullets(self):
+
+        for sets in self.game.bullet_images:
+            self.assertIn(sets,self.game.bullet_images)
+            self.assertIsInstance(self.game.bullet_images[sets],pg.Surface)
+
+            if sets == 'long':
+                self.assertEqual(self.game.bullet_images[sets].get_size(),(5,15))
+            elif sets == 'large':
+                self.assertEqual(self.game.bullet_images[sets].get_size(),(5,10))
+            else:
+                self.assertEqual(self.game.bullet_images[sets].get_size(),(3,7))
+
+    
     
     def tearDown(self):
         pg.quit()

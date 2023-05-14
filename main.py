@@ -83,19 +83,19 @@ class Game:
     def load_data(self):
         self.dim_screen.set_alpha(80)
         self.dim_screen.fill((0, 0, 0))
-        self.load_scoreboard(SCOREBOARD)
+        self.load_scoreboard(SCOREBOARD)#
         self.player_img = pg.image.load(path.join(self.img_folder, self.character_type + PLAYER_IMAGE_NAKED))
         self.zombie_img = pg.image.load(path.join(self.img_folder, ZOMBIE_IMAGE))
-        self.load_bullets()
+        self.load_bullets()#
         self.lives_img = pg.image.load(path.join(self.img_folder, LIVES_IMG))
         self.lives_img = pg.transform.scale(self.lives_img, (20, 20))
-        self.load_flash_smoke()
-        self.load_green_smoke()
-        self.load_splats()
-        self.load_items()
+        self.load_flash_smoke()#
+        self.load_green_smoke()#
+        self.load_splats()#
+        self.load_items()#
         self.fog.fill(NIGHT_COLOR)
-        self.load_light_mask()
-        self.load_sounds()
+        self.load_light_mask()#
+        self.load_sounds()#
 
     def load_flash_smoke(self):
         for smoke in FLASH_SMOKE:
@@ -136,6 +136,7 @@ class Game:
             for splat in SPLATS:
                 splat_img = pg.image.load(path.join(splats_folder, splat))
                 splat_img = pg.transform.scale(splat_img, (64, 64))
+                #print(splat_img)
                 self.splats.append(splat_img)
 
     def load_bullets(self):

@@ -1,6 +1,6 @@
 import sys
 from itertools import chain
-
+import os
 from zombie_game.settings import *
 
 vector = pg.math.Vector2
@@ -15,6 +15,7 @@ def get_hit(character):
 def quit_game():
     pg.quit()
     sys.exit()
+
 
 
 def collide_hit_rect(one, two):

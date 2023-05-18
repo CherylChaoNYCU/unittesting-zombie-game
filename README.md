@@ -11,9 +11,14 @@ Create virtualenv and install all requirements and run command:
 `python3 main.py`
 
 
-========
 
 ## 2. Unittesting 
+
+### * Run Code
+
+    python3 -m unittest test_zombie.py.py
+    OR
+    python3 test_zombie.py
 
 
 ### Overview

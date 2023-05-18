@@ -17,6 +17,7 @@ class Game:
     def __init__(self):
         pg.mixer.pre_init(44100, 16, 1, 2048)
         pg.init()
+        self.hit_test = None
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.board = Board(self.width, self.height)
@@ -223,6 +224,7 @@ class Game:
 
     def _collide_player_with_zombie(self):
         hits = pg.sprite.spritecollide(self.player, self.zombies, False, collide_hit_rect)
+        #print(self.zombies)
         for hit in hits:
             self.player.shield -= self.damage
             hit.vel = vector(0, 0)
@@ -245,6 +247,7 @@ class Game:
 
     def _collide_bullet_with_zombie(self):
         hits = pg.sprite.groupcollide(self.zombies, self.bullets, False, True)
+        
         for hit in hits:
             hit.shield -= WEAPONS[self.player.weapon]['damage'] * len(hits[hit])
             self.player.accurate_shot += len(hits[hit])
@@ -259,6 +262,7 @@ class Game:
 
     def _collide_bullet_with_door(self):
         hits = pg.sprite.groupcollide(self.locked_rooms, self.bullets, False, False)
+        
         for hit in hits:
             if not self.destroyed and self.player.rect.centery < 1500:
                 hit.kill()
@@ -269,31 +273,35 @@ class Game:
                     self.destroyed = True
 
     def _collide_player_with_items(self):
-        hits = pg.sprite.spritecollide(self.player, self.items, False)
+        hits = pg.sprite.spritecollide(self.player, self.items, False)#detect the collision between a group of items and a player
+        #hits: the list of items being collided
+        self.hit_test = hits
+        if len(hits)>0:
+            print(hits)
         for hit in hits:
-            if hit.type == 'health' and self.player.shield < PLAYER_SHIELD:
+            if hit.type == 'health' and self.player.shield < PLAYER_SHIELD:#
                 self.get_health(hit, BIG_HEALTH_PACK)
             if hit.type == 'mini_health' and self.player.shield < PLAYER_SHIELD:
                 self.get_health(hit, MINI_HEALTH_PACK)
-            if hit.type == 'shotgun':
+            if hit.type == 'shotgun':#
                 self.get_weapon(hit, 'shotgun')
-            if hit.type == 'pistol':
+            if hit.type == 'pistol':#
                 self.get_weapon(hit, 'pistol')
             if hit.type == 'uzi':
                 self.get_weapon(hit, 'uzi')
             if hit.type == 'rifle':
                 self.get_weapon(hit, 'rifle')
-            if hit.type == 'ammo_small':
+            if hit.type == 'ammo_small':#
                 self.get_ammo(hit, 'small')
             if hit.type == 'ammo_big':
                 self.get_ammo(hit, 'big')
-            if hit.type == 'key':
+            if hit.type == 'key':#
                 hit.kill()
                 self.player.has_key = True
-            if hit.type == 'id_card':
+            if hit.type == 'id_card':#
                 hit.kill()
                 self.player.has_id = True
-            if hit.type == 'money':
+            if hit.type == 'money':#
                 hit.kill()
                 self.player.money = True
 
@@ -332,7 +340,9 @@ class Game:
         self.sound_effects[weapon].play()
         self.player.weapon = weapon
         self.player.all_weapons.append(weapon)
-        self.player.actual_ammo = self.player.ammo[weapon]
+        print(f'weapons {weapon}')
+        print(self.player.all_weapons)
+        self.player.actual_ammo = self.player.ammo[weapon] #??
 
     def locked_room_reaction(self):
         keys = pg.key.get_pressed()
@@ -382,7 +392,9 @@ class Game:
                     bonus = Item(self, object_center, tile_object.name)
                     self.bonus_items.add(bonus)
                 else:
-                    Item(self, object_center, tile_object.name)
+                    #print(f'getting items: {tile_object.name}')
+                    item = Item(self, object_center, tile_object.name)
+                    #self.items.add(item)
 
     def draw(self):
         self.board.surface.blit(self.map_img, self.camera.apply_rect(self.map_rect))

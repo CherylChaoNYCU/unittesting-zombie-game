@@ -275,11 +275,13 @@ class Game:
     def _collide_player_with_items(self):
         hits = pg.sprite.spritecollide(self.player, self.items, False)#detect the collision between a group of items and a player
         #hits: the list of items being collided
-        self.hit_test = hits
-        if len(hits)>0:
-            print(hits)
-        for hit in hits:
+        #self.hit_test = hits
+        # if len(hits)>0:
+        #     print(hits)
+        #print(self.hit_test)
+        for hit in self.hit_test: #origin: in hits
             if hit.type == 'health' and self.player.shield < PLAYER_SHIELD:#
+                #print(self.player.shield)
                 self.get_health(hit, BIG_HEALTH_PACK)
             if hit.type == 'mini_health' and self.player.shield < PLAYER_SHIELD:
                 self.get_health(hit, MINI_HEALTH_PACK)
@@ -313,8 +315,11 @@ class Game:
     def get_ammo(self, hit, pack):
         hit.kill()
         self.sound_effects['pistol'].play()
+        
         for weapon in WEAPONS.keys():
+            #print(self.player.all_weapons)
             if weapon in self.player.all_weapons:
+                #print('here')
                 self.check_ammo_limit(weapon, pack)
 
     def check_ammo_limit(self, weapon, pack):
@@ -325,9 +330,12 @@ class Game:
             'uzi': 200,
             'rifle': 10
         }
-        if self.player.ammo[weapon] < WEAPONS[weapon]['ammo_limit']:
+        if self.player.ammo[weapon] < WEAPONS[weapon]['ammo_limit']: 
+            #print(f'weapon {weapon}')
+            #print(f'ammo {self.player.ammo[weapon]}')
             self.player.ammo[weapon] += int(AMMO[weapon] * type_of_pack[pack])
-        if self.player.ammo[weapon] > WEAPONS[weapon]['ammo_limit']:
+            #print(f'ammo after{self.player.ammo[weapon]}')
+        if self.player.ammo[weapon] > WEAPONS[weapon]['ammo_limit']: #test this!
             self.player.ammo[weapon] = WEAPONS[weapon]['ammo_limit']
 
     def get_health(self, hit, pack):
@@ -340,8 +348,8 @@ class Game:
         self.sound_effects[weapon].play()
         self.player.weapon = weapon
         self.player.all_weapons.append(weapon)
-        print(f'weapons {weapon}')
-        print(self.player.all_weapons)
+        #print(f'weapons {weapon}')
+        #print(self.player.all_weapons)
         self.player.actual_ammo = self.player.ammo[weapon] #??
 
     def locked_room_reaction(self):

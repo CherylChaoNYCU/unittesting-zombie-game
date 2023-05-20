@@ -16,9 +16,11 @@ Create virtualenv and install all requirements and run command:
 
 ### * Run Code
 
-    python3 -m unittest test_zombie.py.py
+    python3 -m unittest test_{function name}.py
+    
     OR
-    python3 test_zombie.py
+    
+    python3 test_{function name}.py
 
 
 ### Overview

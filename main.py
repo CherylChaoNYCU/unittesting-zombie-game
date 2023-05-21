@@ -17,7 +17,7 @@ class Game:
     def __init__(self):
         pg.mixer.pre_init(44100, 16, 1, 2048)
         pg.init()
-        self.hit_test = None
+        
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.board = Board(self.width, self.height)
@@ -80,6 +80,10 @@ class Game:
         self.damage = None
         self.menu = Menu(self)
         self.bonus = True
+
+        #extra params for testing
+        self.hit_test = None
+        self.hit_test_bonus = None
 
     def load_data(self):
         self.dim_screen.set_alpha(80)
@@ -207,7 +211,7 @@ class Game:
     def _collide_player_with_bonus(self):
         hits = pg.sprite.spritecollide(self.player, self.bonus_items, False)
         delete = False
-        for hit in hits:
+        for hit in self.hit_test_bonus:
             if hit.type == 'coffee':
                 delete = self.get_bonus("EXTRA SPEED")
                 self.player.speed = 300

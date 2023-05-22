@@ -84,6 +84,7 @@ class Game:
         #extra params for testing
         self.hit_test = None
         self.hit_test_bonus = None
+        self.hit_test_zb = None
 
     def load_data(self):
         self.dim_screen.set_alpha(80)
@@ -229,7 +230,7 @@ class Game:
     def _collide_player_with_zombie(self):
         hits = pg.sprite.spritecollide(self.player, self.zombies, False, collide_hit_rect)
         #print(self.zombies)
-        for hit in hits:
+        for hit in self.hit_test_zb:
             self.player.shield -= self.damage
             hit.vel = vector(0, 0)
             if random() < 0.5:
@@ -245,9 +246,9 @@ class Game:
                 else:
                     self.playing = False
                     self.menu.game_over(self.score_list, 'GAME OVER')
-        if hits:
+        if self.hit_test_zb:
             get_hit(self.player)
-            self.player.position += vector(KICKBACK, 0).rotate(-hits[0].rotation)
+            #self.player.position += vector(KICKBACK, 0).rotate(-hits[0].rotation)
 
     def _collide_bullet_with_zombie(self):
         hits = pg.sprite.groupcollide(self.zombies, self.bullets, False, True)

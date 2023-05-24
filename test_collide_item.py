@@ -58,6 +58,7 @@ class TestCollideItem(unittest.TestCase):
         
         #shotgun
         gun_item = pg.sprite.Sprite()
+        print(gun_item)
         gun_item.type = 'shotgun'
         self.items.append(gun_item)
         self.game.hit_test = self.items

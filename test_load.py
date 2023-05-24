@@ -19,7 +19,7 @@ class TestGame(unittest.TestCase):
         self.game = Game()
         # time.sleep(1)
         #print('setting up!')
-        self.game.menu.game_intro()
+        #self.game.menu.game_intro()
         
         #testing for items, stubing: shotgun/pistol/ammo_small/key/id card/money
         self.player = self.game.player

@@ -280,7 +280,7 @@ class Game:
     def _collide_player_with_items(self):
         hits = pg.sprite.spritecollide(self.player, self.items, False)#detect the collision between a group of items and a player
         #hits: the list of items being collided
-        self.hit_test = hits
+        
         # if len(hits)>0:
         #     print(hits)
         #print(self.hit_test)
@@ -409,7 +409,7 @@ class Game:
                     item = Item(self, object_center, tile_object.name)
                     #self.items.add(item)
 
-    def draw(self):
+    def draw(self): 
         self.board.surface.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         self._draw_all_shields()
         if self.night:

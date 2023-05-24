@@ -12,7 +12,7 @@ from os import path
 import os
 
 
-class TestCollide(unittest.TestCase):
+class TestCollideItem(unittest.TestCase):
 
     def setUp(self):
         pg.init()

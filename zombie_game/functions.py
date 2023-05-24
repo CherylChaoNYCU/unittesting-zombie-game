@@ -3,7 +3,7 @@ from itertools import chain
 import os
 from zombie_game.settings import *
 
-vector = pg.math.Vector2
+vector = pg.math.Vector2 #two dimensional vector: (2,3)...
 
 
 def get_hit(character):

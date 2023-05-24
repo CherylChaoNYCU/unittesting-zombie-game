@@ -16,9 +16,11 @@ Create virtualenv and install all requirements and run command:
 
 ### * Run Code
 
-    python3 -m unittest test_zombie.py.py
+    python3 -m unittest test_{function name}.py
+    
     OR
-    python3 test_zombie.py
+    
+    python3 test_{function name}.py
 
 
 ### Overview
@@ -30,7 +32,7 @@ Create virtualenv and install all requirements and run command:
 
 ### * Target
 
-- Our target is to write a unittesting framework for a 2D shooting game
+- Our target is to write an unittesting framework for a 2D shooting game
 - The game will have players, attackers and multiple game scenes(front-end)
 - With our testing code, we hope each functions could run smoothly without any error
 - error examples: player’s life bar doesn’t reduce when being attacked, bullet isn’t triggered…

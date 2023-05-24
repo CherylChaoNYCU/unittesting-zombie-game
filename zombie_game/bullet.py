@@ -14,12 +14,17 @@ class Bullet(pg.sprite.Sprite):
         self.position = vector(position)
         self.game = game
         self.rect.center = position
+        
+        
         self.vel = direction * WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):
+        #print(self.game.dt)
         self.position += self.vel * self.game.dt
+        
         self.rect.center = self.position
+        print(self.game.player.rotation)
         self.image = pg.transform.rotate(self.game.bullet_images['large'], self.game.player.rotation - 90)
         if pg.sprite.spritecollideany(self, self.game.walls):
             self.kill()

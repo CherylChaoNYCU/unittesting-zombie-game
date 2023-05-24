@@ -275,7 +275,7 @@ class Game:
     def _collide_player_with_items(self):
         hits = pg.sprite.spritecollide(self.player, self.items, False)#detect the collision between a group of items and a player
         #hits: the list of items being collided
-        #self.hit_test = hits
+        self.hit_test = hits
         # if len(hits)>0:
         #     print(hits)
         #print(self.hit_test)

@@ -34,25 +34,24 @@ class Menu:
         self.i = 0.56
         self.set_mob_limit(0.1, 337, 480, INTRO_SPRITE_POS_X, self.game.board.draw_menu, self.game_options, 40)
         if 335 < self.pos_y < 337:
-            self.game_choose_character()
+            return self.game_choose_character()
         elif 385 < self.pos_y < 397:
-            self.game_options()
+            return self.game_options()
         elif 455 < self.pos_y < 457:
-            self.game_options()
+            return self.game_options()
         else:
-            quit_game()
+            return quit_game()
 
     def game_options(self):
         self.i = 0.31
         self.set_mob_limit(0.15, 196, 366, OPTIONS_SPRITE_POS_X, self.game.board.draw_options, self.game_intro)
         if 185 < self.pos_y < 187:
             # controls
-            pass
+            return ""
         elif 275 < self.pos_y < 277:
-            pass
             # audio
-        else:
-            self.game_intro()
+            return ""
+        return self.game_intro() #Fixing options triggers unexpected exiting game
 
     def game_choose_character(self):
         self.i = 0.45
@@ -60,12 +59,15 @@ class Menu:
         if 265 < self.pos_y < 275:
             self.game.character_type = 'hitman1_'
             self.game_choosing_difficulty()
+            return 'hitman1_'
         elif 355 < self.pos_y < 365:
             self.game.character_type = 'womanGreen_'
             self.game_choosing_difficulty()
+            return 'womanGreen_'
         else:
             self.game.character_type = 'soldier1_'
             self.game_choosing_difficulty()
+            return 'soldier1_'
 
     def game_choosing_difficulty(self):
         self.i = 0.16
@@ -78,12 +80,15 @@ class Menu:
             difficult = "hard"
         else:
             difficult = "hell"
-        self.game_input(difficult)
+        return self.game_input(difficult)
 
     def game_input(self, difficult):
         word = ""
         while True:
-            pg.display.flip()
+            try:
+                pg.display.flip()
+            except:
+                return
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     quit_game()
@@ -101,7 +106,10 @@ class Menu:
 
     def game_over(self, scoreboard, message):
         while True:
-            self.game.board.draw_game_over(scoreboard, message)
+            try:
+                self.game.board.draw_game_over(scoreboard, message)
+            except:
+                return
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     quit_game()
@@ -133,6 +141,7 @@ class Menu:
     def set_position(self, x):
         self.pos_y = self.game.height * self.i
         self.pos_x = self.game.width * x
+        return (self.pos_y, self.pos_x)
 
     def set_the_mob(self, size=50):
         intro_object = MenuMob(self.game, self.pos_x, self.pos_y, size, size)

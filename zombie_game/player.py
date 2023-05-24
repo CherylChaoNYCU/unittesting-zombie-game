@@ -54,36 +54,47 @@ class Player(pg.sprite.Sprite):
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.rotation_speed = PLAYER_ROTATION_SPEED
+            # return self.rotation_speed
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.rotation_speed = - PLAYER_ROTATION_SPEED
+            # return self.rotation_speed
         if keys[pg.K_UP] or keys[pg.K_w]:
             self.vel = vector(self.speed, 0).rotate(-self.rotation)
+            return True
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vector(-self.speed, 0).rotate(-self.rotation)
+            return False
         if keys[pg.K_SPACE]:
             if self.weapon is not None:
                 if self.ammo[self.weapon] > 0:
-                    self.shoot()
+                    return self.shoot()
                 else:
                     self.game.sound_effects['out_of_ammo'].play()
+                    return "play"
         if keys[pg.K_1]:
             self.weapon = None
+            return self.weapon
         if keys[pg.K_2]:
             if 'pistol' in self.all_weapons and self.weapon is not 'pistol':
                 self.select_weapon('pistol')
+                return 'pistol'
         if keys[pg.K_3]:
             if 'shotgun' in self.all_weapons and self.weapon is not 'shotgun':
                 self.select_weapon('shotgun')
+                return 'shotgun'
         if keys[pg.K_4]:
             if 'uzi' in self.all_weapons and self.weapon is not 'uzi':
                 self.select_weapon('uzi')
+                return 'uzi'
         if keys[pg.K_5]:
             if 'rifle' in self.all_weapons and self.weapon is not 'rifle':
                 self.select_weapon('rifle')
+                return 'rifle'
 
     def select_weapon(self, weapon):
         self.game.sound_effects[weapon].play()
         self.weapon = weapon
+        return self.weapon
 
     def shoot(self):
         now = pg.time.get_ticks()
@@ -95,6 +106,8 @@ class Player(pg.sprite.Sprite):
             self._check_ammo_less_than_zero()
             self._create_bullets(position)
             self._create_smoke(position)
+            return "shoot"
+        return "no_shoot"
 
     def update(self):
         self.get_keys()
@@ -102,6 +115,7 @@ class Player(pg.sprite.Sprite):
         self._update_weapon()
         self._update_damage()
         self._update_player()
+        return True
 
     def _run_kickback(self):
         self.vel = vector(-WEAPONS[self.weapon]['kickback'], 0).rotate(-self.rotation)

@@ -20,7 +20,6 @@ class TestCollideItem(unittest.TestCase):
         self.game = Game()
 
         #self.assertRaises(Exception,self.game.menu.game_intro())
-        print('setting up')
         
         
         #testing for items, stubing: shotgun/pistol/ammo_small/key/id card/money
@@ -32,7 +31,7 @@ class TestCollideItem(unittest.TestCase):
     def test_collide_health(self):
         
         #stubing hits, suppose the player collide with health
-        
+        print("Test for collide_health in main.py:")
         health_item = pg.sprite.Sprite()
         health_item.type = 'health'
         self.items.append(health_item)
@@ -52,13 +51,15 @@ class TestCollideItem(unittest.TestCase):
             self.game._collide_player_with_items()
             
             self.assertEqual(mock_get_health.call_count,1)
+        
+        print("\ttest collide_health : OK")
 
     
     def test_collide_weapon(self):
-        
+        print("Test for collide_weapon in main.py:")
         #shotgun
         gun_item = pg.sprite.Sprite()
-        print(gun_item)
+        #print(gun_item)
         gun_item.type = 'shotgun'
         self.items.append(gun_item)
         self.game.hit_test = self.items
@@ -100,12 +101,14 @@ class TestCollideItem(unittest.TestCase):
             self.game._collide_player_with_items()
             
             self.assertEqual(mock_get_weapon.call_count,4)
+        
+        print("\ttest collide_weapon : OK")
 
 
 
     def test_collide_ammo(self):
         
-        
+        print("Test for collide_ammo in main.py:")
 
         #stub ammo value
         origin_ammo = []
@@ -132,9 +135,13 @@ class TestCollideItem(unittest.TestCase):
   
         for w in ['pistol','shotgun','uzi','rifle']:
             self.assertEqual(self.player.ammo[w],WEAPONS[w]['ammo_limit'])
+        
+        print("\ttest collide_ammo : OK")
 
 
     def test_kim(self):
+
+        print("Test for collide_item (others) in main.py:")
         for i in ['key','id_card','money']:
             item = pg.sprite.Sprite()
             item.type = i
@@ -148,6 +155,8 @@ class TestCollideItem(unittest.TestCase):
         self.assertEqual(self.player.has_id,True)
         self.assertEqual(self.player.money,True)
 
+        print("\ttest collide_item(others) : OK")
+
 
 
 
@@ -157,11 +166,7 @@ class TestCollideItem(unittest.TestCase):
 
 
 
-    
-    def tearDown(self):
-        print('tearing down')
-        #pg.quit()
-        #del self.game
+
 
 
 

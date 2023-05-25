@@ -11,11 +11,12 @@ class TestBullet(unittest.TestCase):
     def setUp(self):
         self.game = Game()  # Create a sprite group for testing
         self.items = []
-        print('setting up')
+        
     #mock the uniform function so that it will always return 1.0
     @patch('zombie_game.bullet.uniform', return_value=1.0)
     def test_bullet_update(self, mock_uniform):
         
+        print("Test for bullet.py:")
         #stubing pos , dir
         position = (100, 100)
         direction = pg.math.Vector2(1, 0)
@@ -55,12 +56,12 @@ class TestBullet(unittest.TestCase):
         self.assertEqual(bullet.game.player.rotation-90, expected_rotation)
         #check the times self.kill() in bullet.py be called
         self.assertEqual(bullet.kill.call_count,2)
+
+        print("\ttest bullet.py : OK")
        
 
 
 
-    def tearDown(self):
-        print('tearing down')
 
     # Add more test methods for other scenarios...
 

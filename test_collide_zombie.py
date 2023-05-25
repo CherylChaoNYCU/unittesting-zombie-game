@@ -21,9 +21,6 @@ class TestCollideZombie(unittest.TestCase):
         self.items = []
         self.game = Game()
         #self.get_hit_test = get_hit(self.game.player)
-
-        print('setting up')
-        
         
         #testing for items, stubing: shotgun/pistol/ammo_small/key/id card/money
         self.player = self.game.player
@@ -37,6 +34,8 @@ class TestCollideZombie(unittest.TestCase):
     def test_collide_zombie(self,mock_rand,mock_hit):
         
         '''case1 player.lives > 0'''
+        print("Test for collide_zombie in main.py:")
+        print("case1 player.lives > 0:")
 
         zbs1 = pg.sprite.Sprite()
         zbs1.vel = vector(-1,1) #should be 0,0 after calling main
@@ -70,8 +69,10 @@ class TestCollideZombie(unittest.TestCase):
         self.assertEqual(self.game.player.damaged,True)
         #self.assertEqual(self.game.player.damage_alpha,True)
 
+        print("\ttest collide_zombie1 : OK")
 
-        '''case1 player.lives < 0'''
+        print("case2 player.lives < 0:")
+        '''case2 player.lives < 0'''
 
         zbs2 = pg.sprite.Sprite()
         self.items.append(zbs2)
@@ -88,13 +89,13 @@ class TestCollideZombie(unittest.TestCase):
         #get_hit = Mock()
         self.assertEqual(mock_hit.call_count,3)
 
+        print("\ttest collide_zombie2 : OK")
+
 
 
    
-    def tearDown(self):
-        print('tearing down')
-        #pg.quit()
-        #del self.game
+
+
 
 
 

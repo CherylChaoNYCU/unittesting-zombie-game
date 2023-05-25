@@ -19,7 +19,6 @@ class TestCollide(unittest.TestCase):
         self.items = []
         self.game = Game()
 
-        print('setting up')
         self.player = self.game.player
         
         
@@ -28,6 +27,9 @@ class TestCollide(unittest.TestCase):
 
     
     def test_collide_bonus(self):
+
+        print("Test for collide_bonus in main.py:")
+
         
         #coffee
         bonus_c = pg.sprite.Sprite()
@@ -64,13 +66,17 @@ class TestCollide(unittest.TestCase):
         self.assertEqual(self.game.damage,5)
         self.assertEqual(self.game.player.bonus,'EXTRA STRENGTH')
 
+        print("\ttest collide_bonus : OK")
+
         
+        print("Test for get_bonus in main.py:")
         with patch.object(self.game,'get_bonus') as mock_get_bonus:
             self.game.hit_test_bonus = self.items
             self.game.player.shield = 0
             self.game._collide_player_with_bonus()
             
             self.assertEqual(mock_get_bonus.call_count,3)
+        print("\ttest get_bonus : OK")
 
 
 

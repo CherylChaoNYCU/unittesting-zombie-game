@@ -51,9 +51,11 @@ Create virtualenv and install all requirements and run command:
     - check if all functions are tested
 
 
+```
     coverage run -m unittest test{function name}.py
     coverage report -m   
-
+    
+```
     
     
 

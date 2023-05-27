@@ -228,6 +228,8 @@ class Game:
                     i.kill()
 
     def _collide_player_with_zombie(self):
+
+        #if len(self.zombies) == 0: return False #no zombies, no collision, return
         hits = pg.sprite.spritecollide(self.player, self.zombies, False, collide_hit_rect)
         #print(self.zombies)
         for hit in self.hit_test_zb:
@@ -246,8 +248,10 @@ class Game:
                 else:
                     self.playing = False
                     self.menu.game_over(self.score_list, 'GAME OVER')
+                    
         if self.hit_test_zb:
             get_hit(self.player)
+            #return True #collide exist, zombies are not all killed
             #self.player.position += vector(KICKBACK, 0).rotate(-hits[0].rotation)
 
     def _collide_bullet_with_zombie(self):
@@ -474,6 +478,23 @@ class Game:
             if isinstance(sprite, Zombie):
                 sprite.draw_shield()
             self.board.surface.blit(sprite.image, self.camera.apply(sprite))
+
+    #for CACC testing
+
+    def _All_Zombie_Died(self): #pragma
+        #A case that len(zombies) is not 0 but their shields are all <=0
+        #mock self._collide_bullet_with_zombie() and return True or False
+        #self.zombies should be mocked too
+        shield_check = []
+        if len(self.zombies) > 0:
+            for z in self.zombies:
+                if(z.shield <= 0):
+                    shield_check.append(1)
+                else:
+                    shield_check.append(0)
+        print(shield_check)
+        #AorBorC
+        return ((len(self.zombies) <= 0) or (not self._collide_player_with_zombie()) or (shield_check.count(1) == len(self.zombies)))
 
 
 if __name__ == "__main__":

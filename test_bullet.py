@@ -58,6 +58,34 @@ class TestBullet(unittest.TestCase):
         self.assertEqual(bullet.kill.call_count,2)
 
         print("\ttest bullet.py : OK")
+    
+    def test_bullet_key_error(self):
+
+        '''
+        For key error exception
+        '''
+
+        print('Test for KeyError in bullet.py:')
+        position = (100, 100)
+        direction = pg.math.Vector2(1, 0)
+        self.game.dt = 1/1000
+
+        bullet = Bullet(self.game, position, direction)
+        #stub WEAPONS bullet lifetime
+        gun_item = pg.sprite.Sprite()
+        gun_item.type = 'fakegun'
+        self.items.append(gun_item)
+        self.game.hit_test = self.items
+        self.game._collide_player_with_items()
+        bullet.spawn_time = -1000
+        bullet.kill = Mock()
+        bullet.update()
+        self.assertEqual(bullet.kill.call_count,2)
+
+        print("\tKey_Error test completed : OK")
+
+
+
        
 
 
@@ -65,5 +93,5 @@ class TestBullet(unittest.TestCase):
 
     # Add more test methods for other scenarios...
 
-if __name__ == '__main__':
+if __name__ == '__main__':#pragma: no cover
     unittest.main()

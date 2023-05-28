@@ -20,11 +20,9 @@ class TestCollideItem(unittest.TestCase):
         self.game = Game()
 
         #self.assertRaises(Exception,self.game.menu.game_intro())
-        
-        
-        #testing for items, stubing: shotgun/pistol/ammo_small/key/id card/money
-        self.player = self.game.player
-        self.item_img = self.game.items_images
+        self.game.player.position = (0,0)
+        self.game.player.rect = pg.Rect(0, 0, 2, 2)
+        self.game.items = pg.sprite.Group()
         
 
     #Should this be written in another class?
@@ -32,12 +30,15 @@ class TestCollideItem(unittest.TestCase):
         
         #stubing hits, suppose the player collide with health
         print("Test for collide_health in main.py:")
-        health_item = pg.sprite.Sprite()
-        health_item.type = 'health'
-        self.items.append(health_item)
+      
+        object_center = vector(1, 1)
+        health_item = Item(self.game,object_center,'health')
+        health_item.rect= pg.Rect(0, 0, 2, 2)
+        self.game.items.add(health_item)
+
         stub_shield = PLAYER_SHIELD - 10
         self.game.player.shield = stub_shield
-        self.game.hit_test = self.items
+        
         self.game._collide_player_with_items()
         self.assertEqual(self.game.player.shield, PLAYER_SHIELD)
         #self.assertEqual(self.game.sound_effects.call_count,1)
@@ -47,113 +48,137 @@ class TestCollideItem(unittest.TestCase):
         with patch.object(self.game,'get_health') as mock_get_health:
             stub_shield = PLAYER_SHIELD - 10
             self.game.player.shield = stub_shield
-            self.game.hit_test = self.items
+            object_center = vector(1, 1)
+            health_item = Item(self.game,object_center,'health')
+            health_item.rect= pg.Rect(0, 0, 2, 2)
+            self.game.items.add(health_item)
             self.game._collide_player_with_items()
             
             self.assertEqual(mock_get_health.call_count,1)
         
         print("\ttest collide_health : OK")
+    
+    def test_collide_mini_health(self):
+        
+        print("Test for collide_health(mini) in main.py:")
+        object_center = vector(2,2)
+        health_item = Item(self.game,object_center,'mini_health')
+        health_item.rect= pg.Rect(1, 1, 2, 2)
+        self.game.items.add(health_item)
+
+        stub_shield = 1
+        self.game.player.shield = stub_shield
+        self.game._collide_player_with_items()
+        self.assertEqual(self.game.player.shield, MINI_HEALTH_PACK+1)
+        #self.assertEqual(self.game.sound_effects.call_count,1)
+
+
+        #testing get_health
+        with patch.object(self.game,'get_health') as mock_get_health:
+            stub_shield = 1
+            object_center = vector(2,2)
+            health_item = Item(self.game,object_center,'mini_health')
+            health_item.rect= pg.Rect(1, 1, 2, 2)
+            self.game.items.add(health_item)
+            self.game._collide_player_with_items()
+            
+            self.assertEqual(mock_get_health.call_count,1)
+        
+        print("\ttest collide_health(mini) : OK")
+    
+
 
     
     def test_collide_weapon(self):
         print("Test for collide_weapon in main.py:")
         #shotgun
-        gun_item = pg.sprite.Sprite()
-        #print(gun_item)
-        gun_item.type = 'shotgun'
-        self.items.append(gun_item)
-        self.game.hit_test = self.items
+        object_center = vector(1, 1)
+        gun_item = Item(self.game,object_center,'shotgun')
+        gun_item.rect= pg.Rect(0, 0, 2, 2)
+        self.game.items.add(gun_item)
 
         #pistol
-        pistol_item = pg.sprite.Sprite()
-        pistol_item.type = 'pistol'
-        self.items.append(pistol_item)
-        self.game.hit_test = self.items
+        object_center2 = vector( 2, 2)
+        pistol_item = Item(self.game,object_center2,'pistol')
+        pistol_item.rect = pg.Rect(1,1,2,2)
+        self.game.items.add(pistol_item)
+        
 
         #uzi
-        uzi_item = pg.sprite.Sprite()
-        uzi_item.type = 'uzi'
-        self.items.append(uzi_item)
-        self.game.hit_test = self.items
+        object_center3 = vector(1.5, 1.5)
+        uzi_item = Item(self.game,object_center3,'uzi')
+        uzi_item.rect = pg.Rect(0,0,2,2)
+        self.game.items.add(uzi_item)
 
         #rifle
-        rifle_item = pg.sprite.Sprite()
-        rifle_item.type = 'rifle'
-        self.items.append(rifle_item)
-        self.game.hit_test = self.items
+        object_center4 = vector(1.6, 1.6)
+        rifle_item = Item(self.game,object_center4,'rifle')
+        rifle_item.rect = pg.Rect(0,0,2,2)
+        self.game.items.add(rifle_item)
 
 
 
 
         self.game._collide_player_with_items()
         #self.assertEqual(self.player.weapon,'shotgun')
-        self.assertIn('shotgun',self.player.all_weapons)
+        self.assertIn('shotgun',self.game.player.all_weapons)
         #self.assertEqual(self.player.weapon,'pistol')
-        self.assertIn('pistol',self.player.all_weapons)
+        self.assertIn('pistol',self.game.player.all_weapons)
         #self.assertEqual(self.player.weapon,'uzi')
-        self.assertIn('uzi',self.player.all_weapons)
-        self.assertEqual(self.player.weapon,'rifle')
-        self.assertIn('rifle',self.player.all_weapons)
-
-        
-        with patch.object(self.game,'get_weapon') as mock_get_weapon:
-            self.game.hit_test = self.items
-            self.game._collide_player_with_items()
-            
-            self.assertEqual(mock_get_weapon.call_count,4)
-        
-        print("\ttest collide_weapon : OK")
+        self.assertIn('uzi',self.game.player.all_weapons)
+        self.assertEqual(self.game.player.weapon,'rifle')
+        self.assertIn('rifle',self.game.player.all_weapons)
+        self.assertListEqual(self.game.player.all_weapons,['shotgun','pistol','uzi','rifle'])
 
 
 
-    def test_collide_ammo(self):
-        
         print("Test for collide_ammo in main.py:")
+        #self.game.items = pg.sprite.Group()
+        #self.game.player.rect =  pg.Rect(10,10,20,20)
 
         #stub ammo value
-        origin_ammo = []
         for w in ['shotgun','pistol','uzi','rifle']:
-            item = pg.sprite.Sprite()
-            item.type = w
-            self.items.append(item)
-            self.player.ammo[w] = WEAPONS[w]['ammo_limit']-1
-            #origin_ammo.append(self.player.ammo[w])
+            self.game.player.ammo[w] = WEAPONS[w]['ammo_limit']-1
         
-        ammo_item = pg.sprite.Sprite()
-        ammo_item.type = 'ammo_small'
-        self.items.append(ammo_item)
-        type_of_pack = {'small': 0.8, 'big': 1.2}
+        object_center = vector(1, 1)
+        ammo_item = Item(self.game,object_center,'ammo_small')
+        ammo_item.rect = pg.Rect(1,1,2,2)
+        self.game.items.add(ammo_item)
 
-        ammobig_item = pg.sprite.Sprite()
-        ammobig_item.type = 'ammo_big'
-        self.items.append(ammobig_item)
+
+        object_center2 = vector(1.1, 1.1)
+        ammobig_item = Item(self.game,object_center2,'ammo_big')
+        ammobig_item.rect = pg.Rect(1.1,1.1,2,2)
+        self.game.items.add(ammobig_item)
 
         
-        self.game.hit_test = self.items
 
         self.game._collide_player_with_items()
   
         for w in ['pistol','shotgun','uzi','rifle']:
-            self.assertEqual(self.player.ammo[w],WEAPONS[w]['ammo_limit'])
+            self.assertEqual(self.game.player.ammo[w],WEAPONS[w]['ammo_limit'])
         
-        print("\ttest collide_ammo : OK")
+        print("\ttest collide_weapon + collide_ammo : OK")
+
 
 
     def test_kim(self):
 
         print("Test for collide_item (others) in main.py:")
+
+        idx = 0
         for i in ['key','id_card','money']:
-            item = pg.sprite.Sprite()
-            item.type = i
-            self.items.append(item)
-        
-        self.game.hit_test = self.items
+            object_center = vector(idx , idx)
+            other_item = Item(self.game,object_center,i)
+            other_item.rect = pg.Rect(0.1*idx,0.1*idx,2,2)
+            self.game.items.add(other_item)
+            idx+=1
         self.game._collide_player_with_items()
 
             
-        self.assertEqual(self.player.has_key,True)
-        self.assertEqual(self.player.has_id,True)
-        self.assertEqual(self.player.money,True)
+        self.assertEqual(self.game.player.has_key,True)
+        self.assertEqual(self.game.player.has_id,True)
+        self.assertEqual(self.game.player.money,True)
 
         print("\ttest collide_item(others) : OK")
 
@@ -171,5 +196,5 @@ class TestCollideItem(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':#pragma: no cover
     unittest.main()

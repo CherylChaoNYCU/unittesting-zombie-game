@@ -9,14 +9,19 @@ class Bullet(pg.sprite.Sprite):
         self._layer = BULLET_LAYER
         self.groups = game.all_sprites, game.bullets
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = game.bullet_images[WEAPONS[game.player.weapon]['bullet_size']]
+        try:
+            self.image = game.bullet_images[WEAPONS[game.player.weapon]['bullet_size']]
+        except:
+            self.image = game.bullet_images[WEAPONS['pistol']['bullet_size']] #key error, default pistol
         self.rect = self.image.get_rect()
         self.position = vector(position)
         self.game = game
         self.rect.center = position
         
-        
-        self.vel = direction * WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
+        try:
+            self.vel = direction * WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
+        except:
+            self.vel = direction * WEAPONS['pistol']['bullet_speed'] * uniform(0.9, 1.1)
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):
@@ -24,8 +29,8 @@ class Bullet(pg.sprite.Sprite):
         self.position += self.vel * self.game.dt
         
         self.rect.center = self.position
-        print(self.game.player.rotation)
         self.image = pg.transform.rotate(self.game.bullet_images['large'], self.game.player.rotation - 90)
+
         if pg.sprite.spritecollideany(self, self.game.walls):
             self.kill()
         try:

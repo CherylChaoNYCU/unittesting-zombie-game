@@ -12,30 +12,39 @@ class Bullet(pg.sprite.Sprite):
         try:
             self.image = game.bullet_images[WEAPONS[game.player.weapon]['bullet_size']]
         except:
-            self.image = game.bullet_images[WEAPONS['pistol']['bullet_size']] #key error, default pistol
-        self.rect = self.image.get_rect()
+            self.image = None #key error, no weapons
+        try:
+            self.rect = self.image.get_rect()
+        except:
+            self.rect = None
+
         self.position = vector(position)
         self.game = game
-        self.rect.center = position
+
+        try:
+            self.rect.center = position
+        except:
+            pass
         
         try:
             self.vel = direction * WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
         except:
-            self.vel = direction * WEAPONS['pistol']['bullet_speed'] * uniform(0.9, 1.1)
+            self.vel = None #no weapon, no bullet, vel = 0
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):
         #print(self.game.dt)
-        self.position += self.vel * self.game.dt
-        
-        self.rect.center = self.position
-        self.image = pg.transform.rotate(self.game.bullet_images['large'], self.game.player.rotation - 90)
-
-        if pg.sprite.spritecollideany(self, self.game.walls):
-            self.kill()
         try:
+            self.position += self.vel * self.game.dt
+            self.rect.center = self.position
+            
+            self.image = pg.transform.rotate(self.game.bullet_images['large'], self.game.player.rotation - 90)
+
+            if pg.sprite.spritecollideany(self, self.game.walls):
+                self.kill()
+        
             if pg.time.get_ticks() - self.spawn_time > WEAPONS[self.game.player.weapon]['bullet_lifetime']:
                 self.kill()
-        except KeyError:
+        except:
             if pg.time.get_ticks() - self.spawn_time > 1000:
                 self.kill()

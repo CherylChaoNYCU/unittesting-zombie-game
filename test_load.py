@@ -17,9 +17,7 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         pg.init()
         self.game = Game()
-        # time.sleep(1)
-        #print('setting up!')
-        self.game.menu.game_intro()
+
         
         #testing for items, stubing: shotgun/pistol/ammo_small/key/id card/money
         self.player = self.game.player
@@ -29,7 +27,7 @@ class TestGame(unittest.TestCase):
     
     def test_load_scoreboard(self):
                 # Create a temporary file to use for testing
-        #print('test scoreboard')
+        print("Test for load_scoreboard in main.py:")
         temp_file = 'temp_scoreboard.txt'
         tmp_score_list = []
         init = self.game.score_list
@@ -48,6 +46,9 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.score_list, expected_scores)
         
         self.game.score_list = init
+
+        print("\ttest load_scoreboard : OK")
+
    
 
  
@@ -74,6 +75,8 @@ class TestGame(unittest.TestCase):
     def test_load_sounds(self):
         #self.game.load_sounds()
         #print('test load sound')
+        print("Test for load_sounds in main.py:")
+
         self.assertNotEqual(len(self.game.sound_effects),0)
         self.assertNotEqual(len(self.game.weapon_sounds),0)
         self.assertNotEqual(len(self.game.zombie_moan_sounds),0)
@@ -88,10 +91,14 @@ class TestGame(unittest.TestCase):
             self.game.load_sounds()
             calls = len(self.game.weapon_sounds)+5
             self.assertEqual(mock_add_sounds.call_count,calls)
+        
+        print("\ttest load_sounds : OK")
 
     #stubing
     def test_add_sounds(self):
         #print('test add sound')
+
+        print("Test for add_sounds in main.py:")
         sounds = ['test1.ogg','test2.ogg']
         sound_list = []
         vol = 0.5
@@ -109,13 +116,11 @@ class TestGame(unittest.TestCase):
         self.assertEqual(len(sounds),len(sound_list))
         for s in sound_list: #make sure all volumn is set correctly
             self.assertEqual(s.get_volume(),vol)
-    
+        print("\ttest add_sounds : OK")
     
     def test_load_items(self):
-        
-        #self.game.load_items()
-        #print(self.game.items_images)
-        #print('test load item')
+        print("Test for load_items in main.py:")
+
 
         for item in ITEM_IMAGES:
             self.assertIn(item, self.game.items_images)
@@ -125,20 +130,24 @@ class TestGame(unittest.TestCase):
                 #self.assertEqual(self.game.items_images['rifle'].get_size(), (2 * ITEM_SIZE, ITEM_SIZE))
             else:
                  self.assertEqual(self.game.items_images[item].get_size(), (ITEM_SIZE, ITEM_SIZE))
+        print("\ttest load_items : OK")
     
     def test_load_splats(self):
         #self.game.load_splats() as the load splats is called while the game is initialized, so be careful not to call again
         #print(self.game.splats)
         #print('test splats')
+        print("Test for load_splats in main.py:")
         self.assertEqual(len(self.game.splats),4) #check at the end...
         for splat in self.game.splats:
             self.assertEqual(splat.get_width(),64)
             self.assertEqual(splat.get_height(),64)
+        print("\ttest load_splats : OK")
                 
 
     def test_bullets(self):
 
         #print('test bullet')
+        print("Test for load_bullets in main.py:")
 
         for sets in self.game.bullet_images:
             self.assertIn(sets,self.game.bullet_images)
@@ -150,25 +159,14 @@ class TestGame(unittest.TestCase):
                 self.assertEqual(self.game.bullet_images[sets].get_size(),(5,10))
             else:
                 self.assertEqual(self.game.bullet_images[sets].get_size(),(3,7))
+        print("\ttest load_bullets : OK")
 
     
-
-
-
-
-
-
-
-    
-    def tearDown(self):
-        #print('tearing down')
-        pg.quit()
-        del self.game
 
 
 
     
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':#pragma:no cover
     unittest.main()

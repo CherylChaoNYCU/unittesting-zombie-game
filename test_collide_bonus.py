@@ -16,79 +16,55 @@ class TestCollide(unittest.TestCase):
 
     def setUp(self):
         pg.init()
-        self.items = []
         self.game = Game()
-
-        print('setting up')
-        self.player = self.game.player
-        
-        
-
-
-
-    
-    def test_collide_bonus(self):
-        
-        #coffee
-        bonus_c = pg.sprite.Sprite()
-        bonus_c.type = 'coffee'
-        self.items.append(bonus_c)
-        self.game.hit_test_bonus = self.items
-
-        #water
-        bonus_w = pg.sprite.Sprite()
-        bonus_w.type = 'water'
-        self.items.append(bonus_w)
-        self.game.hit_test_bonus = self.items
-        #stub shield value
-        self.game.player.shield = 0
-
-
-        #beer
-        bonus_b = pg.sprite.Sprite()
-        bonus_b.type = 'beer'
-        self.items.append(bonus_b)
-        self.game.hit_test_bonus = self.items
-        #stub damage value
+        self.game.player.shield = 1
+        self.game.player.speed = 10
         self.game.damage = 10
+        self.game.player.position = (0,0)
+        self.game.player.rect = pg.Rect(0, 0, 2, 2)
+        self.game.bonus_items = pg.sprite.Group()
+
+       
+    def stub_bonus(self):
+        idx=0
+        for i in ['coffee','water','beer']:
+            object_center = vector(0.1*idx , 0.1*idx)
+            bonus = Item(self.game,object_center,i)
+            bonus.rect = pg.Rect(0.1*idx,0.1*idx,2,2)
+            self.game.bonus_items.add(bonus)
+            idx+=1
         
+    def test_collide_bonus(self):
+
+        print("Test for collide_bonus in main.py:")
 
 
-
-
-
+        self.stub_bonus()
         self.game._collide_player_with_bonus()
+        
         #self.assertEqual(self.player.weapon,'shotgun')
-        self.assertEqual(self.player.speed,300)
-        self.assertEqual(self.player.shield,200)
+        self.assertEqual(self.game.player.speed,300)
+        self.assertEqual(self.game.player.shield,200)
         self.assertEqual(self.game.damage,5)
         self.assertEqual(self.game.player.bonus,'EXTRA STRENGTH')
 
+        print("\ttest collide_bonus : OK")
+
         
+        print("Test for get_bonus in main.py:")
         with patch.object(self.game,'get_bonus') as mock_get_bonus:
-            self.game.hit_test_bonus = self.items
-            self.game.player.shield = 0
+            self.stub_bonus()
+            self.game.player.shield = 1
             self.game._collide_player_with_bonus()
-            
             self.assertEqual(mock_get_bonus.call_count,3)
+        print("\ttest get_bonus : OK")
 
 
 
 
 
 
- 
 
 
-
-    
-    def tearDown(self):
-        print('tearing down')
-        #pg.quit()
-        #del self.game
-
-
-
-
-if __name__ == '__main__':
+if __name__ == '__main__':#pragma: no cover
     unittest.main()

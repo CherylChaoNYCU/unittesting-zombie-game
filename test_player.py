@@ -314,7 +314,7 @@ class TestPlayer(unittest.TestCase):
         print("\ttest _update_rotation : OK")
 
     def fake_load(self, path):
-        self.tmp.append(path[76:])
+        self.tmp.append(path[59:])
 
     def test12__update_weapon(self):
         with patch("pygame.image.load", new_callable=Mock) as mock_load:

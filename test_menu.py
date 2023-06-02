@@ -139,7 +139,7 @@ class TestMenu(unittest.TestCase):
                     self.entry_name_list = Mock()
                     self.entry_name_list.side_effect = ["easy", "normal", "hard", "hell"]
 
-                    for i in range(3):
+                    for i in range(4):
                         self.assertEqual(self.game.menu.game_choosing_difficulty(), self.entry_name_list())
         print("\ttest game_choosing_difficulty : OK")
 
@@ -154,7 +154,7 @@ class TestMenu(unittest.TestCase):
         self.tmp.append("game_choosing_difficulty")
         pass
 
-    def fake_run(self):
+    def fake_run(self, difficult, word):
         self.tmp.append("run")
         pass
 
@@ -166,11 +166,6 @@ class TestMenu(unittest.TestCase):
     def fake_quit_game2(self):
         self.tmp.append("quit_game")
         pass
-
-    def fake_isalpha(self, c):
-        if self.assertIn(c, self.alpha):
-            return True
-        return False
 
     def test5_game_input(self):
 
@@ -230,6 +225,10 @@ class TestMenu(unittest.TestCase):
 
                                 self.all_test.append(Event(pg.KEYDOWN, pg.K_ESCAPE, ""))
                                 self.expected.append("game_choosing_difficulty")
+                                self.expected.append(word)
+
+                                self.all_test.append(Event(pg.KEYDOWN, pg.K_RETURN, ""))
+                                self.expected.append("run")
                                 self.expected.append(word)
 
                                 self.game.menu.game_input("dont care")
@@ -380,4 +379,4 @@ class TestMenu(unittest.TestCase):
         print("\ttest set_the_mob")
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() # 

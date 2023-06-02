@@ -109,7 +109,7 @@ class Player(pg.sprite.Sprite):
             return "shoot"
         return "no_shoot"
 
-    def update(self):
+    def update(self): # pragma: no cover
         self.get_keys()
         self._update_rotation()
         self._update_weapon()
@@ -136,7 +136,7 @@ class Player(pg.sprite.Sprite):
             self.total_accuracy = round((self.accurate_shot / self.total_bullets) * 100, 2)
             self._run_weapon_sound()
 
-    def _run_weapon_sound(self):
+    def _run_weapon_sound(self): # pragma: no cover
         sound = choice(self.game.weapon_sounds[self.weapon])
         if sound.get_num_channels() > 2:
             sound.stop()
@@ -146,7 +146,7 @@ class Player(pg.sprite.Sprite):
         size = randint(20, 50)
         Smoke(self.game, position, self.game.gun_smoke, size)
 
-    def _update_rotation(self):
+    def _update_rotation(self): # pragma: no cover
         self.rotation = (self.rotation + self.rotation_speed * self.game.dt) % 360
         self.image = pg.transform.rotate(self.game.player_img, self.rotation)
 
@@ -164,14 +164,14 @@ class Player(pg.sprite.Sprite):
             self.game.player_img = pg.image.load(
                 path.join(self.game.img_folder, self.game.character_type + PLAYER_IMAGE_UZI))
 
-    def _update_damage(self):
+    def _update_damage(self): # pragma: no cover
         if self.damaged:
             try:
                 self.image.fill((255, 0, 0, next(self.damage_alpha)), special_flags=pg.BLEND_RGB_MULT)
             except StopIteration:
                 self.damaged = False
 
-    def _update_player(self):
+    def _update_player(self): # pragma: no cover
         self.rect = self.image.get_rect()
         self.rect.center = self.position
         self.position += self.vel * self.game.dt

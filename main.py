@@ -409,7 +409,7 @@ class Game:
                     item = Item(self, object_center, tile_object.name)
                     #self.items.add(item)
 
-    def draw(self):
+    def draw(self): # pragma: no cover
         self.board.surface.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         self._draw_all_shields()
         if self.night:

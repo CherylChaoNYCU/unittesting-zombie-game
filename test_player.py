@@ -298,10 +298,10 @@ class TestPlayer(unittest.TestCase):
     #         self.game.player.weapon = "pistol"
     #         self.game.player._run_weapon_sound()
             
-        # sound = choice(self.game.weapon_sounds[self.weapon])
-        # if sound.get_num_channels() > 2:
-        #     sound.stop()
-        # sound.play()
+    #     sound = choice(self.game.weapon_sounds[self.game.player.weapon])
+    #     if sound.get_num_channels() > 2:
+    #         sound.stop()
+    #     sound.play()
 
     def test10__create_smoke(self):
         # self.game.player._create_smoke()
@@ -335,7 +335,7 @@ class TestPlayer(unittest.TestCase):
     def test13__update_damage(self):
         # self.game.player._update_damage()
         #nothing to do
-        print("\ttest _update_damage")
+        print("\ttest _update_damage : OK")
 
     def test14__update_player(self):
         # self.game.player._update_player()

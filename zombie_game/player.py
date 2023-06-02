@@ -106,8 +106,8 @@ class Player(pg.sprite.Sprite):
             self._check_ammo_less_than_zero()
             self._create_bullets(position)
             self._create_smoke(position)
-            return "shoot"
-        return "no_shoot"
+            return "shoot" #Predicate = True
+        return "no_shoot" #Predicate = False
 
     def update(self): # pragma: no cover
         self.get_keys()

@@ -230,12 +230,12 @@ class TestPlayer(unittest.TestCase):
                 self.game.player.last_shot = 0
                 self.game.player.weapon = test
 
-                # Trigger
+                # Trigger (A > B)
                 self.test_ticks = WEAPONS[test]['rate'] + 1
                 self.tmp.append(self.game.player.shoot())
                 self.expected.append("shoot")
 
-                # Not Trigger
+                # Not Trigger (A < B)
                 self.test_ticks = WEAPONS[test]['rate'] - 1
                 self.tmp.append(self.game.player.shoot())
                 self.expected.append("no_shoot")

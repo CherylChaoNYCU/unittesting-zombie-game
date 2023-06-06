@@ -228,7 +228,7 @@ class Game:
                 for i in self.bonus_items:
                     i.kill()
 
-    def _collide_player_with_zombie(self):
+    def _collide_player_with_zombie(self):#pragma: no cover
 
         #if len(self.zombies) == 0: return False #no zombies, no collision, return
         hits = pg.sprite.spritecollide(self.player, self.zombies, False, collide_hit_rect)
@@ -407,11 +407,8 @@ class Game:
                     item = Item(self, object_center, tile_object.name)
                     #self.items.add(item)
 
-<<<<<<< HEAD
-    def draw(self): # pragma: no cover
-=======
+
     def draw(self): #pragma: no cover
->>>>>>> 35d5cec4e90dad9dee78df24b74f4eff889055d6
         self.board.surface.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         self._draw_all_shields()
         if self.night:

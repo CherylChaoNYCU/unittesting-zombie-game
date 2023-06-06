@@ -33,7 +33,7 @@ class Bullet(pg.sprite.Sprite):
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):
-        #print(self.game.dt)
+        print(self.game.dt)
         try:
             self.position += self.vel * self.game.dt
             self.rect.center = self.position

@@ -28,6 +28,11 @@ class Zombie(pg.sprite.Sprite):
         self.target = game.player
         self.damaged = False
         self.damage_alpha = None
+        self.color = None #for testing
+        self.test_size = -1 # for testing
+        self.test_smoke = None # for testing
+        self.test_moan = None
+        self.test_alpha = -1
 
     def draw_shield(self):
         if self.shield > 60:
@@ -36,6 +41,7 @@ class Zombie(pg.sprite.Sprite):
             color = YELLOW
         else:
             color = RED
+        self.color = color
         width = int(self.rect.width * self.shield / ZOMBIE_SHIELD)
         self.shield_bar = pg.Rect(0, 0, width, 7)
         if self.shield < ZOMBIE_SHIELD:
@@ -54,7 +60,8 @@ class Zombie(pg.sprite.Sprite):
 
     def die(self):
         size = randint(70, 120)
-        Smoke(self.game, self.rect.center, self.game.zombie_death_smoke, size)
+        self.test_size = size #pragma: no cover
+        self.test_smoke = Smoke(self.game, self.rect.center, self.game.zombie_death_smoke, size)
         choice(self.game.zombie_die_sounds).play()
         self.kill()
         self.game.map_img.blit(choice(self.game.splats), self.position - vector(32, 32))
@@ -73,12 +80,14 @@ class Zombie(pg.sprite.Sprite):
 
     def _update_zombie_moan_sounds(self):
         if random() < 0.002:
-            choice(self.game.zombie_moan_sounds).play()
+            self.test_moan = choice(self.game.zombie_moan_sounds)
+            self.test_moan.play()
 
     def _update_damage(self):
         if self.damaged:
             try:
-                self.image.fill((255, 0, 0, next(self.damage_alpha)), special_flags=pg.BLEND_RGB_MULT)
+                self.test_alpha = next(self.damage_alpha)
+                self.image.fill((255, 0, 0, self.test_alpha), special_flags=pg.BLEND_RGB_MULT)
             except StopIteration:
                 self.damaged = False
 
@@ -88,6 +97,7 @@ class Zombie(pg.sprite.Sprite):
 
     def _update_position(self):
         self.rect = self.image.get_rect()
+        #print(self.rect)
         self.rect.center = self.position
         self.acc = vector(1, 0).rotate(-self.rotation)
         self.acc.scale_to_length(self.speed)

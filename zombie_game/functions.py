@@ -25,6 +25,8 @@ def collide_hit_rect(one, two):
 def collide_with_object(sprite, group, direction):
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if direction == 'x' and hits:
+        # print(hits[0].rect.left)
+        # print(sprite.hit_rect.width / 2)
         if hits[0].rect.centerx > sprite.hit_rect.centerx:
             sprite.position.x = hits[0].rect.left - sprite.hit_rect.width / 2
         if hits[0].rect.centerx < sprite.hit_rect.centerx:
